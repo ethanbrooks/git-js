@@ -707,6 +707,28 @@
    };
 
    /**
+    * List tree
+    *
+    * @param {string[]} [args]
+    * @param {Function} [then]
+    */
+   Git.prototype.listTree = function (args, then) {
+      var next = Git.trailingFunctionArgument(arguments);
+      var data = next === args || args === undefined ? [] : args;
+
+      if (typeof data === 'string') {
+         this._getLog('warn', 'Git#listTree: args should be supplied as an array of individual arguments');
+      }
+
+      return this._run(['ls-tree'].concat(data), function (err, data) {
+         next && next(err, data);
+      });
+   };
+
+
+
+
+   /**
     * List remote
     *
     * @param {string[]} [args]
